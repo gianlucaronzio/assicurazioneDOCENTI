@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guida al Piano Sanitario — Personale Scuola e Ministero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12271f;
+    --ink-soft:#3d564b;
+    --paper:#faf8f3;
+    --panel:#ffffff;
+    --green-deep:#0d3b2e;
+    --green:#127a4f;
+    --green-mid:#1c9a63;
+    --green-tint:#e7f3ec;
+    --green-tint-2:#d9ecdf;
+    --amber:#c8862c;
+    --amber-tint:#fbf1e0;
+    --line:#dfe6e0;
+    --shadow: 0 1px 2px rgba(13,59,46,.06);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Source Serif 4', serif;
+    color:var(--green-deep);
+    margin:0 0 .4em 0;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0 0 .9em 0;}
+  a{color:var(--green);}
+
+  /* ---------- App shell ---------- */
+  .app{
+    display:grid;
+    grid-template-columns: 272px 1fr;
+    min-height:100vh;
+  }
+  @media (max-width: 860px){
+    .app{grid-template-columns: 1fr;}
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    background:var(--green-deep);
+    color:#e9f3ee;
+    padding:28px 20px 28px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  @media (max-width: 860px){
+    .sidebar{position:relative; height:auto; padding:20px 16px;}
+  }
+  .brand{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .brand-mark{
+    width:34px;height:34px;flex:none;
+    border-radius:8px;
+    background:linear-gradient(155deg, var(--green-mid), var(--green));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Source Serif 4',serif;
+    font-weight:700;
+    color:#fff;
+    font-size:16px;
+  }
+  .brand-text{
+    font-family:'Source Serif 4', serif;
+    font-size:16.5px;
+    line-height:1.25;
+    color:#fff;
+    font-weight:700;
+    padding-top:2px;
+  }
+  .brand-sub{
+    font-size:11.5px;
+    color:#9fc9b6;
+    margin:10px 2px 22px;
+    letter-spacing:.01em;
+  }
+  nav.sections{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    margin-bottom: 22px;
+  }
+  .nav-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:none;
+    border:none;
+    color:#cfe6da;
+    text-align:left;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    padding:9px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    width:100%;
+  }
+  .nav-item .num{
+    font-family:'Source Serif 4',serif;
+    font-size:12px;
+    color:#7fac97;
+    width:16px;
+    flex:none;
+  }
+  .nav-item:hover{background:rgba(255,255,255,.06); color:#fff;}
+  .nav-item.active{
+    background:var(--green-mid);
+    color:#08251b;
+    font-weight:600;
+  }
+  .nav-item.active .num{color:#08251b;}
+
+  .side-contact{
+    border-top:1px solid rgba(255,255,255,.13);
+    padding-top:16px;
+    font-size:12.5px;
+    color:#bcdccc;
+  }
+  .side-contact strong{display:block; color:#fff; font-size:13px; margin-bottom:6px;}
+  .side-contact .num-verde{
+    font-family:'Source Serif 4',serif;
+    font-size:15px;
+    color:#fff;
+    letter-spacing:.02em;
+    margin: 2px 0 10px;
+  }
+
+  /* ---------- Main ---------- */
+  main{
+    padding: 40px 48px 90px;
+    max-width: 920px;
+  }
+  @media (max-width: 860px){
+    main{padding:28px 20px 70px;}
+  }
+  @media (max-width: 600px){
+    main{padding:22px 16px 60px;}
+  }
+
+  .page-title{
+    font-size: clamp(26px, 3.4vw, 34px);
+    margin-bottom:.2em;
+  }
+  .page-lede{
+    color:var(--ink-soft);
+    font-size:15.5px;
+    max-width:64ch;
+    margin-bottom:28px;
+  }
+
+  .section{display:none;}
+  .section.active{display:block;}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{font-size:17px; margin-bottom:.5em;}
+  .card p:last-child{margin-bottom:0;}
+
+  .stat-row{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    gap:12px;
+    margin: 20px 0 28px;
+  }
+  .stat{
+    background:var(--green-tint);
+    border-left:3px solid var(--green);
+    padding:14px 16px;
+    border-radius:3px;
+  }
+  .stat .value{
+    font-family:'Source Serif 4',serif;
+    font-size:22px;
+    color:var(--green-deep);
+    font-weight:700;
+    line-height:1.1;
+  }
+  .stat .label{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+
+  .callout{
+    background:var(--amber-tint);
+    border:1px solid #ecd9b3;
+    border-radius:var(--radius);
+    padding:14px 18px;
+    font-size:14px;
+    color:#5a4322;
+    margin: 18px 0;
+  }
+  .callout strong{color:#402f13;}
+
+  ul.plain{margin:0 0 .9em 0; padding-left:20px;}
+  ul.plain li{margin-bottom:5px;}
+
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:16px;
+  }
+  @media (max-width:700px){ .two-col{grid-template-columns:1fr;} }
+
+  .divider-row{
+    display:flex; align-items:center; gap:10px;
+    margin: 30px 0 14px;
+  }
+  .divider-row h2{font-size:19px; margin:0; white-space:nowrap;}
+  .divider-row .line{flex:1; height:1px; background:var(--line);}
+
+  /* accordion */
+  .acc{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:10px;
+    background:var(--panel);
+    overflow:hidden;
+  }
+  .acc-head{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:15px 18px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .acc-head:hover{background:var(--green-tint);}
+  .acc-title{
+    font-size:15px;
+    font-weight:600;
+    color:var(--green-deep);
+  }
+  .acc-meta{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:2px;
+    font-weight:400;
+  }
+  .acc-chevron{
+    flex:none;
+    width:20px;height:20px;
+    color:var(--green);
+    transition:transform .18s ease;
+  }
+  .acc.open .acc-chevron{transform:rotate(45deg);}
+  .acc-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .22s ease;
+  }
+  .acc-body-inner{
+    padding: 0 18px 18px;
+    font-size:14.5px;
+    color:var(--ink);
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+  .acc-body-inner ul{margin:0 0 10px 0; padding-left:18px;}
+  .acc-body-inner li{margin-bottom:4px;}
+  .acc-body-inner p{margin:0 0 10px 0;}
+  .pill{
+    display:inline-block;
+    background:var(--green-tint-2);
+    color:var(--green-deep);
+    font-size:12px;
+    font-weight:600;
+    padding:2px 9px;
+    border-radius:20px;
+    margin-right:6px;
+  }
+  .pill.amber{background:var(--amber-tint); color:#7a541c;}
+
+  table.mini{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    margin: 6px 0 12px;
+  }
+  table.mini td, table.mini th{
+    padding:7px 8px;
+    border-bottom:1px solid var(--line);
+    text-align:left;
+  }
+  table.mini th{color:var(--ink-soft); font-weight:600; font-size:12.5px;}
+
+  .exclusion-list{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px 20px;
+  }
+  @media (max-width:700px){ .exclusion-list{grid-template-columns:1fr;} }
+  .exclusion-item{
+    display:flex;
+    gap:9px;
+    font-size:14px;
+    padding:9px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .exclusion-item .x{
+    flex:none;color:#b4483f;font-weight:700;font-size:14px;line-height:1.5;
+  }
+
+  .contact-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin-top:10px;
+  }
+  .contact-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .contact-card .k{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--amber); font-weight:700; margin-bottom:6px;}
+  .contact-card .v{font-size:14.5px;}
+
+  footer.note{
+    margin-top:36px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  /* search box */
+  .search-wrap{
+    position:relative;
+    margin-bottom:18px;
+  }
+  .search-wrap input{
+    width:100%;
+    padding:10px 14px 10px 34px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.07);
+    color:#fff;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+  }
+  .search-wrap input::placeholder{color:#9fc9b6;}
+  .search-wrap svg{
+    position:absolute; left:10px; top:50%; transform:translateY(-50%);
+    width:14px;height:14px; color:#9fc9b6;
+  }
+  .nav-item.hide{display:none;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">U</div>
+      <div class="brand-text">Piano Sanitario<br>Scuola &amp; Ministero</div>
+    </div>
+    <div class="brand-sub">Edizione 2026 · UniSalute</div>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="navSearch" placeholder="Cerca una sezione…">
+    </div>
+
+    <nav class="sections" id="navSections">
+      <button class="nav-item active" data-section="panoramica"><span class="num">01</span>Panoramica</button>
+      <button class="nav-item" data-section="come-funziona"><span class="num">02</span>Come funziona</button>
+      <button class="nav-item" data-section="servizi-digitali"><span class="num">03</span>Servizi online e app</button>
+      <button class="nav-item" data-section="chi-e-coperto"><span class="num">04</span>Chi è assicurato</button>
+      <button class="nav-item" data-section="prestazioni"><span class="num">05</span>Prestazioni coperte</button>
+      <button class="nav-item" data-section="esclusioni"><span class="num">06</span>Cosa non è coperto</button>
+      <button class="nav-item" data-section="pratiche"><span class="num">07</span>Info pratiche</button>
+      <button class="nav-item" data-section="reclami"><span class="num">08</span>Reclami e tutele</button>
+      <button class="nav-item" data-section="contatti"><span class="num">09</span>Contatti</button>
+    </nav>
+
+    <div class="side-contact">
+      <strong>Numero Verde (area ricovero)</strong>
+      <div class="num-verde">contatta la Centrale Operativa</div>
+      dal lunedì al venerdì, 8.30 – 19.30<br>
+      dall'estero: prefisso Italia + 051.xxxxxxxx
+      <br><br>
+      <strong>Tutto il resto</strong>
+      su www.unisalute.it, 24h su 24
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- 01 PANORAMICA -->
+    <section class="section active" id="panoramica">
+      <h1 class="page-title">Guida al Piano Sanitario</h1>
+      <p class="page-lede">Copertura sanitaria integrativa riservata al personale della scuola e del Ministero dell'Istruzione e del Merito, gestita da UniSalute. Questa guida riassume come funziona, cosa copre e come richiedere le prestazioni.</p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="value">€ 600.000</div><div class="label">Massimale annuo per assistito</div></div>
+        <div class="stat"><div class="value">30/09/2026</div><div class="label">Decorrenza della polizza</div></div>
+        <div class="stat"><div class="value">29/09/2030</div><div class="label">Scadenza della polizza</div></div>
+        <div class="stat"><div class="value">71 anni</div><div class="label">Limite di età, se in servizio</div></div>
+      </div>
+
+      <div class="card">
+        <h3>Cosa copre in sintesi</h3>
+        <p>Il Piano interviene per malattia e infortunio, comprese le patologie croniche, recidivanti o pregresse alla data di attivazione. Le aree principali sono:</p>
+        <div class="exclusion-list">
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Ricovero con grande intervento chirurgico</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Ricovero senza intervento per grave evento morboso</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Day-hospital / day surgery</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Intervento chirurgico ambulatoriale</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Indennità sostitutiva da ricovero</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Parto naturale o cesareo</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Prevenzione odontoiatrica e implantologia</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Non autosufficienza permanente</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Prevenzione secondaria (check-up annuali)</div>
+          <div class="exclusion-item"><span class="x" style="color:var(--green)">✓</span>Tariffe agevolate SiSalute Up</div>
+        </div>
+        <p style="margin-top:10px;">Dettagli, importi e franchigie di ciascuna voce nella sezione <em>Prestazioni coperte</em>.</p>
+      </div>
+
+      <div class="callout"><strong>Attenzione:</strong> il Piano è valido solo sul territorio italiano e non copre i ricoveri con pernottamento in OBI o in Pronto Soccorso.</div>
+    </section>
+
+    <!-- 02 COME FUNZIONA -->
+    <section class="section" id="come-funziona">
+      <h1 class="page-title">Come usare il Piano Sanitario</h1>
+      <p class="page-lede">Il percorso cambia a seconda che tu scelga una struttura convenzionata o meno con UniSalute.</p>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Struttura convenzionata</h3>
+          <p><span class="pill">Assistenza diretta</span></p>
+          <ul class="plain">
+            <li>Nessuna spesa anticipata: UniSalute paga direttamente la struttura</li>
+            <li>Serve l'autorizzazione preventiva della Centrale Operativa</li>
+            <li>Verifica prima che anche il medico scelto sia convenzionato</li>
+            <li>Prenotazione veloce da sito o app</li>
+            <li>Paghi solo la parte eventualmente non coperta dal piano</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Struttura non convenzionata</h3>
+          <p><span class="pill amber">Assistenza indiretta / rimborso</span></p>
+          <ul class="plain">
+            <li>Anticipi la spesa e chiedi il rimborso su www.unisalute.it</li>
+            <li>Documenti inviabili in upload dall'Area clienti</li>
+            <li>In alternativa, invio postale a UniSalute S.p.A. Rimborsi Clienti — Via Larga 8, 40138 Bologna (no corriere)</li>
+            <li>Non sono rimborsati i ticket sanitari SSN</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider-row"><h2>Documenti per il rimborso</h2><div class="line"></div></div>
+      <div class="card">
+        <table class="mini">
+          <tr><th>Caso</th><th>Documentazione richiesta</th></tr>
+          <tr><td>Ricovero</td><td>Cartella clinica completa + SDO conforme all'originale</td></tr>
+          <tr><td>Intervento ambulatoriale</td><td>Documentazione clinica completa</td></tr>
+          <tr><td>Indennità giornaliera</td><td>Cartella clinica + SDO conforme all'originale</td></tr>
+          <tr><td>Non autosufficienza</td><td>Verbale Commissione invalidità civile o documento equipollente</td></tr>
+          <tr><td>Tutti i casi</td><td>Modulo di richiesta rimborso + documentazione di spesa quietanzata</td></tr>
+        </table>
+        <p style="font-size:13px; color:var(--ink-soft); margin-top:8px;">UniSalute può sempre richiedere gli originali dei documenti e, se necessario, un'autorizzazione per controlli medici.</p>
+      </div>
+    </section>
+
+    <!-- 03 SERVIZI DIGITALI -->
+    <section class="section" id="servizi-digitali">
+      <h1 class="page-title">Servizi online e app</h1>
+      <p class="page-lede">Sito, app e assistenza sono disponibili 24 ore su 24, tutti i giorni dell'anno.</p>
+
+      <div class="acc" data-title="sito unisalute prenotazioni rimborsi profilo estratto conto">
+        <button class="acc-head">
+          <div><div class="acc-title">Sito www.unisalute.it — Area clienti</div><div class="acc-meta">Registrazione, prenotazioni, rimborsi, dati e pareri medici</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <ul>
+            <li><strong>Registrazione:</strong> "Area riservata" → "Registrati adesso". Username e password diverse tra loro, password di almeno 8 caratteri, da rinnovare ogni 6 mesi.</li>
+            <li><strong>Prenotazione:</strong> solo per le prestazioni di prevenzione presso strutture convenzionate ("Fai una nuova prenotazione").</li>
+            <li><strong>Aggiornamento dati:</strong> sezione "Profilo" per indirizzo, IBAN, cellulare ed e-mail.</li>
+            <li><strong>Richiesta rimborso:</strong> sezione "Richiedi un nuovo rimborso", upload diretto dei documenti.</li>
+            <li><strong>Estratto conto:</strong> stato delle richieste aggiornato quotidianamente, con importi rimborsati e a carico dell'assistito.</li>
+            <li><strong>Sezione "Polizze":</strong> consultazione delle prestazioni del proprio piano.</li>
+            <li><strong>Sezione "Strutture":</strong> elenco delle strutture convenzionate.</li>
+            <li><strong>"Il medico risponde":</strong> pareri medici online via e-mail.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="app unisalute up prenotazioni rimborsi notifiche">
+        <button class="acc-head">
+          <div><div class="acc-title">App UniSalute Up</div><div class="acc-meta">Le stesse funzioni del sito, in mobilità</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <ul>
+            <li>Disponibile gratis su App Store e Play Store; stesse credenziali del sito se già registrati</li>
+            <li>Prenotazione prestazioni di prevenzione, anche in autonomia</li>
+            <li>Agenda appuntamenti: modifica o disdici direttamente dall'app</li>
+            <li>Rimborso caricando la foto di fattura e documenti, in tre passaggi</li>
+            <li>Estratto conto in tempo reale, con notifiche push</li>
+            <li>Sezione "Per Te": news e articoli del Blog InSalute</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="customer care chatbot chiara assistenza">
+        <button class="acc-head">
+          <div><div class="acc-title">Customer Care e Chatbot Chiara</div><div class="acc-meta">Canali di assistenza alternativi al Numero Verde</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Customer Care:</strong> sezione "Contatti" dell'Area riservata → form online per stato pratiche, problemi tecnici del portale o attivazione di un ricovero urgente. Risposta entro 2 giorni lavorativi.</p>
+          <p><strong>Chatbot Chiara:</strong> assistente virtuale attivo 24/7 nell'Area riservata del sito.</p>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- 04 CHI E COPERTO -->
+    <section class="section" id="chi-e-coperto">
+      <h1 class="page-title">Chi è assicurato</h1>
+      <p class="page-lede">Il Piano copre le seguenti categorie di personale, salvo cessazione dal servizio prima della scadenza di polizza per il personale a tempo indeterminato.</p>
+      <div class="card">
+        <ul class="plain">
+          <li>Dirigenti scolastici</li>
+          <li>Personale amministrativo, tecnico e ausiliario — tempo indeterminato</li>
+          <li>Personale amministrativo, tecnico e ausiliario — tempo determinato (annuale o fino al termine delle attività didattiche, per la durata dell'incarico)</li>
+          <li>Personale docente — tempo indeterminato</li>
+          <li>Personale docente — tempo determinato (annuale o fino al termine delle attività didattiche)</li>
+          <li>Personale educativo — tempo indeterminato</li>
+          <li>Personale educativo — tempo determinato</li>
+          <li>Personale dipendente del Ministero (Uffici centrali e periferici) — tempo indeterminato</li>
+          <li>Personale Dirigente del Ministero — Uffici centrali e periferici</li>
+          <li>Personale utilizzato (distaccato e comandato)</li>
+        </ul>
+      </div>
+      <div class="callout"><strong>Variazioni in corso d'anno:</strong> nuove assunzioni, pensionamenti, decessi e cessazioni sono comunicate mensilmente dal Ministero (entro il 15 del mese). Le nuove coperture partono dal primo giorno del mese successivo alla comunicazione.</div>
+    </section>
+
+    <!-- 05 PRESTAZIONI -->
+    <section class="section" id="prestazioni">
+      <h1 class="page-title">Prestazioni coperte</h1>
+      <p class="page-lede">Massimale complessivo: <strong>€ 600.000 per annualità assicurativa</strong> e per assistito, salvo i sotto-limiti indicati per ciascuna prestazione.</p>
+
+      <div class="acc" data-title="grande intervento chirurgico ricovero onorari sala operatoria">
+        <button class="acc-head">
+          <div><div class="acc-title">Ricovero per grande intervento chirurgico</div><div class="acc-meta">Scoperto 10% · max € 4.000 non indennizzabili per evento</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Copre, per gli interventi dell'Elenco I: onorari dell'équipe, sala operatoria, materiale di intervento, assistenza medica e infermieristica, rette di degenza, visite e accertamenti nei 90 giorni precedenti e successivi al ricovero, spese del donatore in caso di trapianto.</p>
+          <ul>
+            <li>Vitto e pernottamento dell'accompagnatore: fino a € 50/giorno, max 30 giorni</li>
+            <li>Trasporto assistito/accompagnatore: fino a € 1.000 per annualità</li>
+            <li>In assistenza diretta (struttura convenzionata): scoperto 10%, massimo € 4.000 non indennizzabili per evento</li>
+            <li>In assistenza indiretta (solo se assenti strutture convenzionate in provincia): stessi limiti; le prestazioni pre/post ricovero in strutture non convenzionate sono rimborsate integralmente</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="grave evento morboso ricovero senza intervento">
+        <button class="acc-head">
+          <div><div class="acc-title">Ricovero senza intervento per grave evento morboso</div><div class="acc-meta">Scoperto 10% · max € 4.000 non indennizzabili per evento</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Per gli eventi dell'Elenco II: rette di degenza, assistenza medica e infermieristica, accertamenti diagnostici durante il ricovero, prestazioni nei 90 giorni precedenti e successivi, correlate al grave evento morboso.</p>
+          <p>Se durante il ricovero si rende necessario un intervento chirurgico incluso nell'Elenco I, si applicano anche le condizioni previste per il "Grande intervento chirurgico".</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="indennita sostitutiva ricovero ssn">
+        <button class="acc-head">
+          <div><div class="acc-title">Indennità sostitutiva da ricovero con intervento</div><div class="acc-meta">€ 50/giorno · franchigia 5 giorni · max 40 giorni/anno</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Se in caso di ricovero con intervento a totale carico del SSN non si richiede alcun rimborso al Piano, viene corrisposta un'indennità giornaliera di € 50, con franchigia di 5 giorni, entro il limite di 40 giorni per annualità.</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="day hospital day surgery intervento ambulatoriale">
+        <button class="acc-head">
+          <div><div class="acc-title">Day-hospital / Day surgery e intervento ambulatoriale</div><div class="acc-meta">Stessi limiti delle garanzie di ricovero</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Il day-hospital (degenza diurna senza pernottamento) segue le stesse condizioni previste per il grande intervento chirurgico o il grave evento morboso. L'intervento chirurgico ambulatoriale segue le condizioni del grande intervento chirurgico.</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="parto naturale cesareo">
+        <button class="acc-head">
+          <div><div class="acc-title">Parto</div><div class="acc-meta">€ 2.500 naturale · € 4.000 cesareo · nessuno scoperto</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Copertura omnicomprensiva (escluse spese pre/post ricovero) per parto in struttura convenzionata o non, purché non a carico del SSN. Nessuno scoperto o franchigia, fino a concorrenza della fattura.</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="prevenzione odontoiatrica igiene orale visita">
+        <button class="acc-head">
+          <div><div class="acc-title">Prevenzione odontoiatrica</div><div class="acc-meta">Massimale € 100 · scoperto 15%</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Una visita specialistica odontoiatrica e una seduta di igiene orale (ablazione tartaro) l'anno, in un'unica soluzione, solo presso strutture convenzionate (o non convenzionate se assenti in provincia, previa verifica con la Centrale Operativa).</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="implantologia impianti corone">
+        <button class="acc-head">
+          <div><div class="acc-title">Implantologia</div><div class="acc-meta">Max € 2.400/assistito · € 600/impianto · fino a 4 impianti/anno</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Copre posizionamento dell'impianto, avulsione, elemento provvisorio e definitivo, perno moncone. Nessuno scoperto o franchigia entro i massimali; l'eventuale eccedenza è a carico dell'assistito. Servono radiografie precedenti l'installazione.</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="non autosufficienza permanente attivita quotidiane">
+        <button class="acc-head">
+          <div><div class="acc-title">Non autosufficienza permanente</div><div class="acc-meta">€ 500/mese · fino a 4 anni</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Incapacità totale e permanente (durata minima 90 giorni continuativi, effetti irreversibili) che impedisca almeno 3 delle 6 attività elementari della vita quotidiana:</p>
+          <ul>
+            <li>Fare il bagno o la doccia</li>
+            <li>Mantenere l'igiene personale</li>
+            <li>Vestirsi</li>
+            <li>Nutrirsi</li>
+            <li>Continenza</li>
+            <li>Spostarsi / camminare</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="prevenzione secondaria check up cardiovascolare oncologica">
+        <button class="acc-head">
+          <div><div class="acc-title">Prevenzione secondaria</div><div class="acc-meta">Un pacchetto check-up all'anno, in strutture convenzionate</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p><strong>Pacchetto cardiovascolare base:</strong> analisi di laboratorio (AST, ALT, creatinina, colesterolo totale e HDL, emocromo, glicemia, gamma GT, PTT, PT, trigliceridi, urea, esame urine, VES) + ECG basale + visita cardiologica.</p>
+          <p><strong>Prevenzione oncologica donna</strong> (oltre 40 anni), uno a scelta tra: visita ginecologica + pap test; visita senologica + ecografia mammaria; visita senologica + mammografia.</p>
+          <p><strong>Prevenzione oncologica uomo</strong> (oltre 40 anni): visita urologica + PSA.</p>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="sisalute up tariffe agevolate familiari">
+        <button class="acc-head">
+          <div><div class="acc-title">Tariffe agevolate — SiSalute Up</div><div class="acc-meta">Estese anche ai familiari, tramite app dedicata</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Accesso a prestazioni sanitarie a condizioni agevolate rispetto al mercato, su un network nazionale (ospedali, poliambulatori, studi odontoiatrici, centri di fisioterapia), tramite l'app "SiSalute Up".</p>
+          <ul>
+            <li>Titolare: registrazione diretta in app</li>
+            <li>Familiare maggiorenne: codice di attivazione richiesto dal titolare alla Centrale Operativa SiSalute</li>
+            <li>Familiare minorenne: attivazione diretta dal titolare tramite la propria app</li>
+            <li>Servizio valido 12 mesi dall'attivazione</li>
+            <li>Servizi digitali accessori: Pharma Checker (e-triage), Blog InSalute, Pharma (foglietti illustrativi)</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="acc" data-title="servizi consulenza numero verde informazioni contratto">
+        <button class="acc-head">
+          <div><div class="acc-title">Servizi di consulenza</div><div class="acc-meta">Via Centrale Operativa, lun–ven 8.30–19.30</div></div>
+          <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-inner">
+          <p>Informazioni sul contratto (prestazioni, massimali, franchigie, documentazione), sullo stato delle pratiche di rimborso e supporto alla prenotazione di prestazioni in assistenza diretta.</p>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- 06 ESCLUSIONI -->
+    <section class="section" id="esclusioni">
+      <h1 class="page-title">Cosa non è coperto</h1>
+      <p class="page-lede">Il Piano non è operante nei seguenti casi.</p>
+      <div class="card">
+        <div class="exclusion-list">
+          <div class="exclusion-item"><span class="x">✕</span>Difetti fisici o malformazioni preesistenti all'adesione</div>
+          <div class="exclusion-item"><span class="x">✕</span>Malattie mentali e disturbi psichici (eccetto non autosufficienza)</div>
+          <div class="exclusion-item"><span class="x">✕</span>Infortuni da atti dolosi dell'assistito</div>
+          <div class="exclusion-item"><span class="x">✕</span>Infortuni/intossicazioni da ubriachezza, droghe, abuso di psicofarmaci</div>
+          <div class="exclusion-item"><span class="x">✕</span>Sport aerei, gare motoristiche, sport professionistici</div>
+          <div class="exclusion-item"><span class="x">✕</span>Prestazioni puramente estetiche (salvo chirurgia ricostruttiva post-infortunio)</div>
+          <div class="exclusion-item"><span class="x">✕</span>Accertamenti per infertilità e fecondazione artificiale</div>
+          <div class="exclusion-item"><span class="x">✕</span>Ricoveri per malattie croniche in istituti di lunga permanenza</div>
+          <div class="exclusion-item"><span class="x">✕</span>Protesi dentarie e cure odontoiatriche (salvo quanto già indennizzabile)</div>
+          <div class="exclusion-item"><span class="x">✕</span>Conseguenze di radiazioni o trasformazioni atomiche</div>
+          <div class="exclusion-item"><span class="x">✕</span>Conseguenze di guerra, insurrezioni, tumulti a cui si è partecipato attivamente</div>
+          <div class="exclusion-item"><span class="x">✕</span>Movimenti tellurici o eruzioni vulcaniche</div>
+        </div>
+      </div>
+      <div class="callout">In caso di dubbio su situazioni non chiaramente definibili, la Centrale Operativa resta a disposizione per chiarimenti.</div>
+    </section>
+
+    <!-- 07 PRATICHE -->
+    <section class="section" id="pratiche">
+      <h1 class="page-title">Informazioni pratiche</h1>
+
+      <div class="card">
+        <h3>Decorrenza e durata</h3>
+        <p>La polizza è efficace dalle 00:00 del <strong>30/09/2026</strong> alle 24:00 del <strong>29/09/2030</strong>. Territorio di validità: solo Italia.</p>
+      </div>
+
+      <div class="card">
+        <h3>Limiti di età</h3>
+        <p>Limite di 71 anni, se in servizio a quell'età. In caso di raggiungimento del limite in corso d'anno, la copertura cessa alla prima scadenza annuale utile.</p>
+      </div>
+
+      <div class="card">
+        <h3>Diritto all'oblio oncologico</h3>
+        <p>Chi è guarito da una patologia oncologica da più di 10 anni (5 anni se la patologia è insorta prima dei 21 anni) non è tenuto a dichiarare né a subire indagini sulla propria pregressa condizione, in fase di stipula o rinnovo. Eventuali informazioni note non possono incidere sulle condizioni contrattuali. Alcune patologie hanno termini ridotti: verifica gli aggiornamenti su www.unisalute.it.</p>
+      </div>
+
+      <div class="card">
+        <h3>Riepiloghi periodici</h3>
+        <ul class="plain">
+          <li>Riepilogo mensile delle richieste di rimborso liquidate e non liquidate</li>
+          <li>Riepilogo annuale di tutta la documentazione presentata, con importi richiesti, liquidati e a carico dell'assistito</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 RECLAMI -->
+    <section class="section" id="reclami">
+      <h1 class="page-title">Reclami e tutele</h1>
+
+      <div class="card">
+        <h3>Come presentare un reclamo</h3>
+        <p>Usa il modulo su www.unisalute.it oppure scrivi a: <strong>UniSalute S.p.A. Ufficio Reclami — Via Larga, 8 — 40138 Bologna</strong> (fax 051.7096892). Indica nome, cognome, domicilio, codice fiscale/partita IVA e descrizione della lamentela.</p>
+      </div>
+
+      <div class="card">
+        <h3>Se non sei soddisfatto della risposta</h3>
+        <ul class="plain">
+          <li>Puoi rivolgerti a <strong>IVASS</strong> — Servizio Tutela del Consumatore, Via del Quirinale 21, 00187 Roma, tel. 06.42.133.1 — se non c'è riscontro entro 45 giorni (60 giorni per reclami sull'Agente)</li>
+          <li><strong>Arbitro Assicurativo</strong> tramite portale www.arbitroassicurativo.org — condizione di procedibilità della domanda giudiziale</li>
+          <li><strong>Mediazione</strong> tramite un Organismo iscritto al Ministero della Giustizia — condizione di procedibilità</li>
+          <li><strong>Negoziazione assistita</strong> con l'assistenza di un avvocato</li>
+          <li>Per liti transfrontaliere: rete <strong>FIN-NET</strong></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Foro competente</h3>
+        <p>Per le controversie contrattuali, il foro competente è quello di residenza o domicilio elettivo dell'assicurato.</p>
+      </div>
+    </section>
+
+    <!-- 09 CONTATTI -->
+    <section class="section" id="contatti">
+      <h1 class="page-title">Contatti utili</h1>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="k">Prestazioni diverse da ricovero</div>
+          <div class="v">www.unisalute.it — 24h su 24, 365 giorni l'anno</div>
+        </div>
+        <div class="contact-card">
+          <div class="k">Area ricovero</div>
+          <div class="v">Numero Verde (contatto preventivo obbligatorio) — lun-ven 8.30–19.30<br>Dall'estero: prefisso Italia + 051.xxxxxxxx</div>
+        </div>
+        <div class="contact-card">
+          <div class="k">Rimborsi via posta</div>
+          <div class="v">UniSalute S.p.A. Rimborsi Clienti<br>Via Larga 8 — 40138 Bologna BO<br>(solo servizio postale, no corriere)</div>
+        </div>
+        <div class="contact-card">
+          <div class="k">Reclami</div>
+          <div class="v">UniSalute S.p.A. Ufficio Reclami<br>Via Larga 8 — 40138 Bologna<br>Fax 051.7096892</div>
+        </div>
+        <div class="contact-card">
+          <div class="k">Tariffe agevolate SiSalute (titolare e familiari)</div>
+          <div class="v">Numero dedicato SiSalute — lun-ven 8.30–19.30</div>
+        </div>
+        <div class="contact-card">
+          <div class="k">Sede legale UniSalute</div>
+          <div class="v">Via Larga 8 — 40138 Bologna<br>Tel. +39 051 6386111<br>info@unisalute.it</div>
+        </div>
+      </div>
+      <footer class="note">Guida al Piano Sanitario per il Personale della Scuola e del Ministero — Edizione 2026. UniSalute S.p.A., Gruppo Assicurativo Unipol. I numeri telefonici riportati come "xxxxxxxxx" nel documento originale non sono riprodotti: fai riferimento alla guida ufficiale o all'Area clienti per i recapiti completi.</footer>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const navItems = document.querySelectorAll('.nav-item');
+  const sections = document.querySelectorAll('.section');
+  navItems.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const target = btn.dataset.section;
+      navItems.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      sections.forEach(s=>s.classList.toggle('active', s.id===target));
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // accordions
+  document.querySelectorAll('.acc-head').forEach(head=>{
+    head.addEventListener('click', ()=>{
+      const acc = head.parentElement;
+      const body = acc.querySelector('.acc-body');
+      const isOpen = acc.classList.contains('open');
+      // close siblings in same section for tidiness
+      acc.parentElement.querySelectorAll('.acc.open').forEach(o=>{
+        if(o!==acc){
+          o.classList.remove('open');
+          o.querySelector('.acc-body').style.maxHeight = null;
+        }
+      });
+      acc.classList.toggle('open', !isOpen);
+      body.style.maxHeight = !isOpen ? body.scrollHeight + 'px' : null;
+    });
+  });
+
+  // sidebar search filter
+  const searchInput = document.getElementById('navSearch');
+  searchInput.addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    navItems.forEach(btn=>{
+      const text = btn.textContent.toLowerCase();
+      btn.classList.toggle('hide', q && !text.includes(q));
+    });
+  });
+</script>
+</body>
+</html>
